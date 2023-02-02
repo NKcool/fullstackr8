@@ -8,6 +8,9 @@ require("./models/database").databaseconnection();
 
 const indexRouter = require("./routes/indexRoute");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(require("cors")({ credentials: true, origin: process.env.origin }));
 
 app.use("/", indexRouter);
