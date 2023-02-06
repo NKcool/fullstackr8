@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "./.env" });
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const app = express();
 const PORT = process.env.PORT;
@@ -11,6 +12,7 @@ const indexRouter = require("./routes/indexRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(
     session({
         resave: false,

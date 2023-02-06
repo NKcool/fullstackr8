@@ -10,6 +10,12 @@ const userModel = new mongoose.Schema(
             minLength: [4, "name must have atleast 4 characters"],
             required: [true, "name is required"],
         },
+        username: {
+            type: String,
+            unique: true,
+            minLength: [4, "username must have atleast 4 characters"],
+            // required: [true, "username is required"],
+        },
         email: {
             type: String,
             require: [true, "email is required"],
@@ -17,14 +23,27 @@ const userModel = new mongoose.Schema(
         },
         password: {
             type: String,
+            select: false,
             minLength: [6, "name must have atleast 4 characters"],
             required: [true, "name field must not empty"],
             match: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/,
+        },
+        bio: {
+            type: String,
+            maxLength: [69, "bio must have almost 69 characters"],
+            // required: [true, "username is required"],
+        },
+        about: {
+            type: String,
+            maxLength: [143, "about must have almost 143 characters"],
+            // required: [true, "username is required"],
         },
         avatar: {
             type: String,
             default: "avatar.png",
         },
+        lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
+        stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
     },
     { timestamps: true }
 );

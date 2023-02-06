@@ -6,8 +6,9 @@ const {
     signin,
     signout,
 } = require("../controllers/indexController");
+const { isLoggedIn } = require("../utils/auth");
 
-router.get("/", homepage);
+router.get("/", isLoggedIn, homepage);
 // router.route("/").get(homepage);
 
 // post /signup - create user

@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const { sendToken } = require("../utils/auth");
 
 exports.homepage = (req, res, next) => {
-    res.send("This is homepage...");
+    res.send("This is homepage..." + req.id);
     // res.json({})
 };
 exports.signup = async (req, res, next) => {
@@ -23,7 +23,7 @@ exports.signup = async (req, res, next) => {
 exports.signin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        let user = await User.findOne({ email }).exec();
+        let user = await User.findOne({ email }).select("+password").exec();
         if (!user) {
             return res.status(404).json({ message: "user not found" });
         }
