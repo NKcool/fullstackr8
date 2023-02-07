@@ -44,6 +44,7 @@ const userModel = new mongoose.Schema(
         },
         lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
         stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
+        passwordResetToken: 0,
     },
     { timestamps: true }
 );
