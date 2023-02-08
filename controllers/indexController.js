@@ -1,6 +1,15 @@
 const User = require("../models/userModel");
 const { sendToken } = require("../utils/auth");
 const nodemailer = require("nodemailer");
+const formidable = require("formidable");
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+    cloud_name: "dhanesh-cloudinary",
+    api_key: "176257529696164",
+    api_secret: "FsvsmtHChA4V5HJXdYSuMzzRwSg",
+    secure: true,
+});
 
 exports.homepage = (req, res, next) => {
     res.send("This is homepage..." + req.id);
@@ -108,5 +117,30 @@ exports.forgetpassword = async (req, res, next) => {
         }
     } catch (error) {
         res.status(500).json({ message: error });
+    }
+};
+
+exports.upload = async (req, res) => {
+    try {
+        const form = formidable();
+        form.parse(req, async (err, fields, files) => {
+            if (err) return res.status(500).json({ message: err });
+            const user = await User.findById(req.id).exec();
+            if (files) {
+                const { public_id, secure_url } =
+                    await cloudinary.v2.uploader.upload(files.image.filepath, {
+                        folder: "mern04",
+                        width: 1920,
+                        crop: "scale",
+                    });
+                user.avatar = { public_id, url: secure_url };
+                await user.save();
+                res.status(200).json({ message: "Image Uploaded" });
+            } else {
+                res.status(500).json({ message: "No file uploaded" });
+            }
+        });
+    } catch (error) {
+        res.status(500).json(error);
     }
 };

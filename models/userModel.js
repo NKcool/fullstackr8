@@ -39,8 +39,11 @@ const userModel = new mongoose.Schema(
             // required: [true, "username is required"],
         },
         avatar: {
-            type: String,
-            default: "avatar.png",
+            type: Object,
+            default: {
+                public_id: "",
+                url: "",
+            },
         },
         lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
         stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "blog" }],
