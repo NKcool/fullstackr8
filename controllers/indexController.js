@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Blog = require("../models/blogModel");
 const { sendToken } = require("../utils/auth");
 const nodemailer = require("nodemailer");
 const formidable = require("formidable");
@@ -12,9 +13,9 @@ cloudinary.config({
 });
 
 exports.homepage = (req, res, next) => {
-    res.send("This is homepage..." + req.id);
-    // res.json({})
+    res.json({ message: "This is homepage...", user: req.user });
 };
+
 exports.signup = async (req, res, next) => {
     try {
         let user = await User.findOne({ email: req.body.email }).exec();
@@ -125,7 +126,7 @@ exports.upload = async (req, res) => {
         const form = formidable();
         form.parse(req, async (err, fields, files) => {
             if (err) return res.status(500).json({ message: err });
-            const user = await User.findById(req.id).exec();
+            const user = await User.findById(req.user._id).exec();
             if (files) {
                 const { public_id, secure_url } =
                     await cloudinary.v2.uploader.upload(files.image.filepath, {
@@ -142,5 +143,37 @@ exports.upload = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json(error);
+    }
+};
+
+exports.createstories = async (req, res) => {
+    try {
+        const blog = new Blog({ ...req.body, author: req.user._id });
+        await req.user.stories.push(blog._id);
+        await blog.save();
+        await req.user.save();
+        res.status(201).json({ message: "blog posted" });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+};
+
+exports.blogs = async (req, res) => {
+    try {
+        const blogs = await Blog.find().exec();
+        res.status(200).json({ message: "all blogs", blogs });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+};
+
+exports.showstories = async (req, res) => {
+    try {
+        const { stories } = await User.findById(req.user._id)
+            .populate("stories")
+            .exec();
+        res.status(201).json({ message: "user blogs", stories });
+    } catch (error) {
+        res.status(500).json({ message: error });
     }
 };

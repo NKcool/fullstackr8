@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 exports.sendToken = (user, req, res, statuscode) => {
     const token = user.gettoken();
@@ -13,11 +14,12 @@ exports.sendToken = (user, req, res, statuscode) => {
     res.json({ message: "user logged in", token });
 };
 
-exports.isLoggedIn = (req, res, next) => {
+exports.isLoggedIn = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         const { id } = jwt.verify(token, "SECRETKEYJWT");
-        req.id = id;
+        const user = await User.findById(id).select("+password").exec();
+        req.user = user;
         next();
     } catch (error) {
         if (error.name === "JsonWebTokenError") {

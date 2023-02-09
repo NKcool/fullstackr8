@@ -8,6 +8,9 @@ const {
     sendmail,
     forgetpassword,
     upload,
+    createstories,
+    blogs,
+    showstories,
 } = require("../controllers/indexController");
 const { isLoggedIn } = require("../utils/auth");
 
@@ -21,7 +24,7 @@ router.post("/signup", signup);
 router.post("/signin", signin);
 
 // get /signout - logout user
-router.get("/signout", signout);
+router.get("/signout", isLoggedIn, signout);
 
 // /reset-password
 // update/:id
@@ -34,9 +37,20 @@ router.get("/send-mail", sendmail);
 router.get("/forget-password/:id", forgetpassword);
 
 // get /upload - upload image
-router.get("/upload", upload);
+router.get("/upload", isLoggedIn, upload);
 
 // /delete-upload
 
 // cloudinary.uploader.destroy('zombie', function(result) { console.log(result) });
+
+// -------------------------------------------------------------
+// get /create-blog - create bloge
+router.post("/create-stories", isLoggedIn, createstories);
+
+// get /blogs - show all blogs
+router.get("/show-stories", isLoggedIn, showstories);
+
+// get /blogs - show all blogs
+router.get("/blogs", blogs);
+
 module.exports = router;
