@@ -53,7 +53,9 @@ const userModel = new mongoose.Schema(
 );
 
 userModel.pre("save", async function () {
-    this.password = await bcrypt.hash(this.password, 10);
+    if (this.password) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
 });
 
 userModel.methods.comparepassword = function (userpassword) {

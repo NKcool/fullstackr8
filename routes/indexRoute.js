@@ -11,6 +11,7 @@ const {
     createstories,
     blogs,
     showstories,
+    listblog,
 } = require("../controllers/indexController");
 const { isLoggedIn } = require("../utils/auth");
 
@@ -47,10 +48,13 @@ router.get("/upload", isLoggedIn, upload);
 // get /create-blog - create bloge
 router.post("/create-stories", isLoggedIn, createstories);
 
-// get /blogs - show all blogs
+// get /show-stories - show all blogs of user
 router.get("/show-stories", isLoggedIn, showstories);
 
 // get /blogs - show all blogs
 router.get("/blogs", blogs);
+
+// get /save/:blogid - save the blog to list of the user
+router.get("/list/:blogid", isLoggedIn, listblog);
 
 module.exports = router;

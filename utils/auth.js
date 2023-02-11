@@ -18,7 +18,7 @@ exports.isLoggedIn = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         const { id } = jwt.verify(token, "SECRETKEYJWT");
-        const user = await User.findById(id).select("+password").exec();
+        const user = await User.findById(id).exec();
         req.user = user;
         next();
     } catch (error) {

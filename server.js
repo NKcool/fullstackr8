@@ -21,7 +21,7 @@ app.use(
         secret: "jk43t9",
     })
 );
-app.use(require("cors")({ credentials: true, origin: process.env.origin }));
+app.use(require("cors")({ credentials: true }));
 
 app.use("/", indexRouter);
 

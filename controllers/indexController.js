@@ -172,7 +172,28 @@ exports.showstories = async (req, res) => {
         const { stories } = await User.findById(req.user._id)
             .populate("stories")
             .exec();
+        console.log(stories);
         res.status(201).json({ message: "user blogs", stories });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+};
+
+exports.listblog = async (req, res) => {
+    try {
+        const { blogid } = req.params;
+        if (!req.user.lists.includes(blogid)) {
+            req.user.lists.push(blogid);
+            await req.user.save();
+            res.status(200).json({ message: "blog saved to user list" });
+        } else {
+            const blogIndex = req.user.lists.findIndex(
+                (blog) => blog._id === blogid
+            );
+            req.user.lists.splice(blogIndex, 1);
+            await req.user.save();
+            res.status(200).json({ message: "blog unsaved from user list" });
+        }
     } catch (error) {
         res.status(500).json({ message: error });
     }
