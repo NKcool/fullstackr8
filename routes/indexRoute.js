@@ -12,11 +12,14 @@ const {
     blogs,
     showstories,
     listblog,
+    currentuser,
 } = require("../controllers/indexController");
 const { isLoggedIn } = require("../utils/auth");
 
 router.get("/", isLoggedIn, homepage);
 // router.route("/").get(homepage);
+
+router.get("/loaduser", isLoggedIn, currentuser);
 
 // post /signup - create user
 router.post("/signup", signup);

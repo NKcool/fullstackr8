@@ -1,20 +1,42 @@
 import React, { useEffect } from "react";
 import axios from "./axios";
+import { asyncsignup, asyncloaduser, asyncsignin } from "./store/userActions";
+import { useDispatch, useSelector } from "react-redux";
 const App = () => {
-    const getbackend = async () => {
-        try {
-            const data = await axios.get("/");
-            console.log(data);
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
-
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    // console.log(error);
+    // console.log(isAuthenticated);
     useEffect(() => {
-        getbackend();
+        dispatch(asyncloaduser());
     }, []);
 
-    return <div>App</div>;
+    const registerUser = () => {
+        dispatch(
+            asyncsignup({
+                name: "Ravi Kumar",
+                username: "ravi_kumar",
+                email: "ravi@kumar.com",
+                password: "Aa@123",
+            })
+        );
+    };
+
+    const loginUser = () => {
+        dispatch(
+            asyncsignin({
+                email: "ravi@kumar.com",
+                password: "Aa@123",
+            })
+        );
+    };
+
+    return (
+        <div>
+            <button onClick={registerUser}>Signup</button>
+            <button onClick={loginUser}>Signin</button>
+        </div>
+    );
 };
 
 export default App;

@@ -1,0 +1,33 @@
+import { loaduser, errors } from "./UserSlice";
+import axios from "../axios";
+
+export const asyncsignup = (newuser) => async (dispatch) => {
+    try {
+        // console.log(newuser);
+        const { data } = await axios.post("/signup", newuser);
+        dispatch(loaduser(data.user));
+    } catch (err) {
+        dispatch(errors(err.response.data.message));
+    }
+};
+
+export const asyncsignin = (newuser) => async (dispatch) => {
+    try {
+        // console.log(newuser);
+        const { data } = await axios.post("/signin", newuser);
+        dispatch(loaduser(data.user));
+    } catch (err) {
+        dispatch(errors(err.response.data.message));
+    }
+};
+
+export const asyncloaduser = () => async (dispatch) => {
+    try {
+        const { data } = await axios.get("/loaduser");
+        // console.log("loaduser action>>>>>", data);
+        // console.log(data);
+        dispatch(loaduser(data.user));
+    } catch (err) {
+        dispatch(errors(err.response.data.message));
+    }
+};

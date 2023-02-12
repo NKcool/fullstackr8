@@ -21,7 +21,9 @@ app.use(
         secret: "jk43t9",
     })
 );
-app.use(require("cors")({ credentials: true }));
+app.use(
+    require("cors")({ origin: "http://localhost:3001", credentials: true })
+);
 
 app.use("/", indexRouter);
 

@@ -10,8 +10,8 @@ exports.sendToken = (user, req, res, statuscode) => {
         httpOnly: true,
         // secure: true
     });
-
-    res.json({ message: "user logged in", token });
+    user.password = undefined;
+    res.json({ message: "user logged in", user });
 };
 
 exports.isLoggedIn = async (req, res, next) => {

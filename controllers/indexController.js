@@ -16,6 +16,10 @@ exports.homepage = (req, res, next) => {
     res.json({ message: "This is homepage...", user: req.user });
 };
 
+exports.currentuser = (req, res) => {
+    res.status(200).json({ user: req.user });
+};
+
 exports.signup = async (req, res, next) => {
     try {
         let user = await User.findOne({ email: req.body.email }).exec();
@@ -24,7 +28,7 @@ exports.signup = async (req, res, next) => {
         }
         const newUser = new User(req.body);
         user = await newUser.save();
-        res.json(user);
+        sendToken(user, req, res, 200);
     } catch (error) {
         res.status(501).json({ message: error.message });
     }
