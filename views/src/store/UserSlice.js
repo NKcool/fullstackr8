@@ -18,10 +18,15 @@ export const userSlice = createSlice({
         errors: (state, action) => {
             state.error = action.payload;
         },
+        signout: (state, action) => {
+            state.user = null;
+            state.isAuthenticated = false;
+            state.error = null;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { loaduser, errors } = userSlice.actions;
+export const { loaduser, errors, signout } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
-import axios from "./axios";
-import { asyncsignup, asyncloaduser, asyncsignin } from "./store/userActions";
+import { toast } from "react-toastify";
+
+import {
+    asyncsignup,
+    asyncloaduser,
+    asyncsignin,
+    asyncsignout,
+} from "./store/userActions";
 import { useDispatch, useSelector } from "react-redux";
+import Editor from "./components/Editor";
 const App = () => {
+    const notify = () => toast("Wow so easy!");
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     // console.log(error);
@@ -31,10 +39,18 @@ const App = () => {
         );
     };
 
+    const signoutUser = () => {
+        dispatch(asyncsignout());
+    };
+
     return (
         <div>
+            <button onClick={notify}>Call Toast</button>
             <button onClick={registerUser}>Signup</button>
             <button onClick={loginUser}>Signin</button>
+            <button onClick={signoutUser}>Signout</button>
+            <hr />
+            <Editor />
         </div>
     );
 };

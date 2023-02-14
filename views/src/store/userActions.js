@@ -1,4 +1,4 @@
-import { loaduser, errors } from "./UserSlice";
+import { loaduser, errors, signout } from "./UserSlice";
 import axios from "../axios";
 
 export const asyncsignup = (newuser) => async (dispatch) => {
@@ -27,6 +27,15 @@ export const asyncloaduser = () => async (dispatch) => {
         // console.log("loaduser action>>>>>", data);
         // console.log(data);
         dispatch(loaduser(data.user));
+    } catch (err) {
+        dispatch(errors(err.response.data.message));
+    }
+};
+
+export const asyncsignout = () => async (dispatch) => {
+    try {
+        await axios.get("/signout");
+        dispatch(signout());
     } catch (err) {
         dispatch(errors(err.response.data.message));
     }
