@@ -11,6 +11,7 @@
         "@editorjs/link": "^2.5.0",
         "@editorjs/list": "^1.8.0",
         "@editorjs/quote": "^2.5.0",
+        "@editorjs/simple-image": "^1.5.1",
         "@reduxjs/toolkit": "^1.9.2",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
