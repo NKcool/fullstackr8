@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
+    blogs: null,
     isAuthenticated: false,
     error: null,
 };
@@ -23,10 +24,13 @@ export const userSlice = createSlice({
             state.isAuthenticated = false;
             state.error = null;
         },
+        loadblogs: (state, action) => {
+            state.blogs = action.payload;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { loaduser, errors, signout } = userSlice.actions;
+export const { loaduser, errors, signout, loadblogs } = userSlice.actions;
 
 export default userSlice.reducer;

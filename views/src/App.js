@@ -6,6 +6,7 @@ import {
     asyncloaduser,
     asyncsignin,
     asyncsignout,
+    asyncloadblogs,
 } from "./store/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import Editor from "./components/Editor";
@@ -13,10 +14,12 @@ const App = () => {
     const notify = () => toast("Wow so easy!");
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
+
     // console.log(error);
     // console.log(isAuthenticated);
     useEffect(() => {
         dispatch(asyncloaduser());
+        dispatch(asyncloadblogs());
     }, []);
 
     const registerUser = () => {
@@ -51,6 +54,8 @@ const App = () => {
             <button onClick={signoutUser}>Signout</button>
             <hr />
             <Editor />
+            <hr />
+            {/* {user && user.blogs && user.blogs.map((blog) => eval(blog.data))} */}
         </div>
     );
 };
