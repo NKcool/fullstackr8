@@ -38,7 +38,7 @@ export const EDITOR_JS_TOOLS = {
         class: Image,
         config: {
             endpoints: {
-                byFile: "https://api.cloudinary.com/v1_1/dhanesh-cloudinary/editor",
+                byFile: "http://localhost:3030/uploadBlog",
                 // byUrl: "http://localhost:3000/fetchUrl",
             },
             field: "blog",

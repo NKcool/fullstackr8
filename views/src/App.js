@@ -55,7 +55,14 @@ const App = () => {
             <hr />
             <Editor />
             <hr />
-            {/* {user && user.blogs && user.blogs.map((blog) => eval(blog.data))} */}
+            {user &&
+                user.blogs &&
+                user.blogs.map((blog) => (
+                    <div
+                        key={blog._id}
+                        dangerouslySetInnerHTML={{ __html: blog.data }}
+                    ></div>
+                ))}
         </div>
     );
 };

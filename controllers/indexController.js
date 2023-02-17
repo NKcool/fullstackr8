@@ -134,7 +134,7 @@ exports.upload = async (req, res) => {
             if (files) {
                 const { public_id, secure_url } =
                     await cloudinary.v2.uploader.upload(files.image.filepath, {
-                        folder: "mern04",
+                        folder: "editor",
                         width: 1920,
                         crop: "scale",
                     });
@@ -200,5 +200,34 @@ exports.listblog = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: error });
+    }
+};
+
+exports.uploadBlog = async (req, res) => {
+    try {
+        const form = formidable();
+        form.parse(req, async (err, fields, files) => {
+            if (err) return res.status(500).json({ message: err });
+            if (files) {
+                console.log(files);
+                const { public_id, secure_url } =
+                    await cloudinary.v2.uploader.upload(files.blog.filepath, {
+                        folder: "editorblog",
+                        width: 1920,
+                        crop: "scale",
+                    });
+
+                res.status(200).json({
+                    success: 1,
+                    file: {
+                        url: secure_url,
+                    },
+                });
+            } else {
+                res.status(500).json({ message: "No file uploaded" });
+            }
+        });
+    } catch (error) {
+        res.status(500).json(error);
     }
 };

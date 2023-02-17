@@ -22,7 +22,7 @@ app.use(
     })
 );
 app.use(
-    require("cors")({ origin: "http://localhost:3001", credentials: true })
+    require("cors")({ origin: "http://localhost:3000", credentials: true })
 );
 
 app.use("/", indexRouter);
@@ -31,6 +31,13 @@ app.use("/", indexRouter);
 app.use(function (req, res, next) {
     next(createError(404));
 });
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("views/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "views", "build", "index.html"));
+    });
+}
 
 // error handler
 app.use(function (err, req, res, next) {

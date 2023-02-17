@@ -13,6 +13,7 @@ const {
     showstories,
     listblog,
     currentuser,
+    uploadBlog,
 } = require("../controllers/indexController");
 const { isLoggedIn } = require("../utils/auth");
 
@@ -59,5 +60,8 @@ router.get("/blogs", blogs);
 
 // get /save/:blogid - save the blog to list of the user
 router.get("/list/:blogid", isLoggedIn, listblog);
+
+// post /uploadBlog - save the blog to image to cloudinary
+router.post("/uploadBlog", uploadBlog);
 
 module.exports = router;
