@@ -34,13 +34,6 @@ app.use(function (req, res, next) {
     next(createError(404));
 });
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("views/build"));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "views", "build", "index.html"));
-    });
-}
-
 // error handler
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
@@ -48,6 +41,12 @@ app.use(function (err, req, res, next) {
     res.status(500).json({ error: err });
 });
 
-if (process.env.PORT) {
-    app.listen(PORT, () => console.log(`server running on port: ${PORT}`));
+if (process.env.NODE_ENV === "production") {
+    const path = require("path");
+    app.get("/", (req, res) => {
+        app.use(express.static(path.resolve(__dirname, "views", "build")));
+        res.sendFile(path.resolve(__dirname, "views", "build", "index.html"));
+    });
 }
+
+app.listen(PORT, () => console.log(`server running on port: ${PORT}`));
