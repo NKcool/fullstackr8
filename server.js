@@ -25,9 +25,7 @@ app.use(
 //     require("cors")({ origin: "http://localhost:3000", credentials: true })
 // );
 
-app.use(
-    require("cors")({credentials: true })
-);
+app.use(require("cors")({ credentials: true }));
 
 app.use("/", indexRouter);
 
@@ -50,4 +48,6 @@ app.use(function (err, req, res, next) {
     res.status(500).json({ error: err });
 });
 
-app.listen(PORT, () => console.log(`server running on port: ${PORT}`));
+if (process.env.PORT) {
+    app.listen(PORT, () => console.log(`server running on port: ${PORT}`));
+}
