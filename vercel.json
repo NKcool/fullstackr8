@@ -1,8 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "./server.js",
-            "use": "@vercel/node"
+            "source": "./server.js"
         }
     ],
     "routes": [
